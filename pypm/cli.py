@@ -3,8 +3,8 @@ try:
     from version import __version__
     from main import PyPM
 except ImportError:
-    from npmpy.version import __version__
-    from npmpy.main import PyPM
+    from pypm.version import __version__
+    from pypm.main import PyPM
 
 
 def handler(arg, cli_tool):

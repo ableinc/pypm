@@ -2,4 +2,4 @@
 Npm like command line tool package manager for Python 3+.
 
 # Notes
-**Incomplete**
+**Incomplete** but functional. 
