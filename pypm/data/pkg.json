@@ -1,0 +1,16 @@
+{
+    "name": "",
+    "version": "",
+    "description": "",
+    "main": "",
+    "scripts": {
+      "start": "",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "",
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+  }
