@@ -39,7 +39,7 @@ class PyPM:
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         for line in io.TextIOWrapper(proc.stdout):
             if self.verbose:
-                print(line)
+                print(line.replace('\n', ''))
 
     def __list_to_str__(self, item_list):
         return ' '.join(item_list)
