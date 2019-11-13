@@ -13,9 +13,10 @@ class Generator:
         self.path = path
         self.verbose = verbose
         self.service = service
+        self.valid_version = True
 
     def __writer__(self, data):
-        with open(os.path.join(self.path, 'package2.json'), 'w', encoding='utf8') as packagejson:
+        with open(os.path.join(self.path, 'package.json'), 'w', encoding='utf8') as packagejson:
             data = json.dumps(data, indent=4, ensure_ascii=True)
             packagejson.write(data)
     
@@ -74,6 +75,8 @@ class Generator:
         template_package_json = self.__reader__('pypm/data/pkg.json', 'json')
         template_package_json['name'] = setup_py['name']
         template_package_json['version'] = setup_py['version']
+        if '.' not in setup_py['version']:
+            self.valid_version = False
         template_package_json['description'] = setup_py['description']
         template_package_json['dependencies'].update(req_dependencies)
         template_package_json['author'] = setup_py['author']

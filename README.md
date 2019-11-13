@@ -32,7 +32,7 @@ pypm --help
     ```bash
     pypm start
     ```
-4. install
+4. install <sup>1</sup>
     Install all or specific packages. Using 'install' as a standalone, it will install all dependencies listed in your package.json (if exists).
     ```bash
     pypm install
@@ -41,7 +41,7 @@ pypm --help
     ```bash
     pypm install ***package1, package2***
     ```
-5. uninstall
+5. uninstall <sup>1</sup>
     Uninstall all or specific packages. Using 'uninstall' as a standalone, it will uninstall all dependencies listed in your package.json (if exists).
     ```bash
     pypm uninstall
@@ -50,7 +50,7 @@ pypm --help
     ```bash
     pypm uninstall ***package1, package2***
     ```
-6. update
+6. update <sup>1</sup>
     Update all or specific packages. Using 'update' as a standalone, it will update all dependencies listed in your package.json (if exists).
     ```bash
     pypm update
@@ -59,10 +59,14 @@ pypm --help
     ```bash
     pypm update ***package1, package2***
     ```
+
+# Key
+<sup>1</sup> Any arguments that pip or npm allow can be combined into these command line arguments. Defined by adding -a/--arguments and entering arguments as such: [--no-cache, --upgrade]. NOTE: You MUST surround the arguments in brackets, it will fail it not.
+
 # Notes
 Documentation is on-going, so refer to examples above for now.
 
 # Up Next
-1. No cache options when installing.
+1. No cache options when installing. - Done | You may add any arguments that are allowed for pip or npm
 2. Better automation algorithm when generating a new package.json
 3. Possible PyPI easy install
