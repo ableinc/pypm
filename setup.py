@@ -27,7 +27,7 @@ setuptools.setup(
     ],
     entry_points='''
         [console_scripts]
-        pypm=pypm.cli:__main__
+        pypm=pypm.cli:main
     ''',
     install_requires=dependencies,
     classifiers=[
