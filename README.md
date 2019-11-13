@@ -17,22 +17,22 @@ pypm --help
 ```
 
 # Examples
-1. init
+1. init<br />
     Generate a brand new package.json file from information in your requirements.txt and setup.py.
     ```bash
     pypm init
     ```
-2. run
+2. run<br />
     Run a predefined scripts from the 'scripts' section of your package.json.
     ```bash
     pypm run tests
     ```
-3. start
+3. start<br />
     Run the start script.
     ```bash
     pypm start
     ```
-4. install <sup>1</sup>
+4. install <sup>1</sup><br />
     Install all or specific packages. Using 'install' as a standalone, it will install all dependencies listed in your package.json (if exists).
     ```bash
     pypm install
@@ -41,7 +41,7 @@ pypm --help
     ```bash
     pypm install ***package1, package2***
     ```
-5. uninstall <sup>1</sup>
+5. uninstall <sup>1</sup><br />
     Uninstall all or specific packages. Using 'uninstall' as a standalone, it will uninstall all dependencies listed in your package.json (if exists).
     ```bash
     pypm uninstall
@@ -50,7 +50,7 @@ pypm --help
     ```bash
     pypm uninstall ***package1, package2***
     ```
-6. update <sup>1</sup>
+6. update <sup>1</sup><br />
     Update all or specific packages. Using 'update' as a standalone, it will update all dependencies listed in your package.json (if exists).
     ```bash
     pypm update
