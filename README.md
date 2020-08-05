@@ -1,11 +1,11 @@
 # pypm
-Pure python package manager for Python 3 and above, similar to npm. This command line tool works just like npm and should mirror
-its features. Python has no community adopted approach to managing projects. Also, outside of requirements.txt
-there is no adopted approach to storing and maintaining dependencies. pyPM is the tool to adopt these community
-requirements. It uses the same package.json structure as NPM, with all the configurations setup.py offers.
+Python package manager for Python 3, similar to npm. This command line tool works just like npm and should mirror its features. Python has no community adopted approach to managing projects. Also, outside of requirements.txt there is no adopted approach to storing and maintaining dependencies. In an effort to resolve this, I've introduced the pyPM tool. It uses the same package.json structure as npm, with all the configurations setup.py offers.
 
 # Install
+**requires Python 3.6**
+
 ```bash
+python3 setup.py build
 python3 setup.py install
 ```
 
@@ -39,7 +39,7 @@ pypm --help
     ```
     or
     ```bash
-    pypm install ***package1, package2***
+    pypm install ***package1 package2***
     ```
 5. uninstall <sup>1</sup><br />
     Uninstall all or specific packages. Using 'uninstall' as a standalone, it will uninstall all dependencies listed in your package.json (if exists).
@@ -48,7 +48,7 @@ pypm --help
     ```
     or
     ```bash
-    pypm uninstall ***package1, package2***
+    pypm uninstall ***package1 package2***
     ```
 6. update <sup>1</sup><br />
     Update all or specific packages. Using 'update' as a standalone, it will update all dependencies listed in your package.json (if exists).
@@ -57,7 +57,7 @@ pypm --help
     ```
     or
     ```bash
-    pypm update ***package1, package2***
+    pypm update ***package1 package2***
     ```
 
 # Key
@@ -66,7 +66,12 @@ pypm --help
 # Notes
 Documentation is on-going, so refer to examples above for now.
 
+# Changelog
+**August 2020**
+CLI has been rebuilt; less complex.
+
 # Up Next
 1. No cache options when installing. - Done | You may add any arguments that are allowed for pip or npm
 2. Better automation algorithm when generating a new package.json
 3. Possible PyPI easy install
+4. Add package-lock.json **currently in development**

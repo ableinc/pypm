@@ -13,7 +13,7 @@ setuptools.setup(
     version=__version__,
     author="AbleInc",
     author_email="douglas.jaylen@gmail.com",
-    description="Pure python package manager for Python 3 and above, similar to npm.",
+    description="Python package manager for projects running Python3.6 and above.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ableinc/pypm",
@@ -27,7 +27,7 @@ setuptools.setup(
     ],
     entry_points='''
         [console_scripts]
-        pypm=pypm.cli:main
+        pypm=pypm.cli:cli
     ''',
     install_requires=dependencies,
     classifiers=[

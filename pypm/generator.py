@@ -1,19 +1,23 @@
-import json, re
+import json, re, os
 import os.path
 
+cur_path = str(os.getcwd())
 
 class Generator:
     """
-        This class is called to generate a package.json for a given python project.
+        This class generates a package.json for a given python project.
         The package.json is structured similar to npm's package.json. It will try
         to fetch information from requirements.txt and setup.py. If neither are
         present the generator will terminate.
     """
-    def __init__(self, path, verbose, service):
+    def __init__(self):
+        self.path = cur_path
+        self.verbose = True
+        self.valid_version = True
+
+    def set_variables(self, path, verbose):
         self.path = path
         self.verbose = verbose
-        self.service = service
-        self.valid_version = True
 
     def __writer__(self, data):
         with open(os.path.join(self.path, 'package.json'), 'w', encoding='utf8') as packagejson:
@@ -21,11 +25,15 @@ class Generator:
             packagejson.write(data)
     
     def __reader__(self, filename, datatype=None):
-        with open(os.path.join(self.path, filename), 'r', encoding='utf8') as reader:
-            if datatype is None:
-                return reader.readlines()
-            elif datatype == 'json':
-                return json.loads(reader.read())
+        try:
+            with open(os.path.join(self.path, filename), 'r', encoding='utf8') as reader:
+                if datatype is None:
+                    return reader.readlines()
+                elif datatype == 'json':
+                    return json.loads(reader.read())
+        except FileNotFoundError:
+            print('File Not Found. Unable to proceed. Please ensure you have both setup.py and requirements.txt in your root directory.')
+            exit()
 
     def __organize_requirements__(self, req_file, count=2):
         obj = {}
@@ -42,10 +50,10 @@ class Generator:
         print('Press press enter to leave as default.\n')
         questions = [
             'Enter version (default: 0.0.1) > ',
-            'Enter entry point file (default: blank) > ',
-            'Enter start script (default: blank) > ',
-            'Enter test script (default: npm default) > ',
-            'Enter license (default: blank) > '
+            'Enter entry point file (default: main.py) > ',
+            'Enter start script (default: python [entry point file]) > ',
+            'Enter test script (default: blank) > ',
+            'Enter license (default: ISC) > '
         ]
         for index, question in enumerate(questions):
             answer = input(question)
@@ -54,11 +62,11 @@ class Generator:
             elif index == 1:
                 obj['main'] = answer
             elif index == 2:
-                obj['scripts']['start'] = answer
+                obj['scripts']['start'] = answer if answer != '' else f"python {obj['main']}"
             elif index == 3:
                 obj['scripts']['test'] = answer
             elif index == 4:
-                obj['license'] = answer
+                obj['license'] = answer if answer != '' else 'ISC'
         return obj
             
     def generate(self):

@@ -1,20 +1,32 @@
-import json, shlex, subprocess, io, sys
+import json, shlex, subprocess, io, sys, os
 import os.path
 
+cur_path = str(os.getcwd())
 
 class PyPM:
-    def __init__(self, path, verbose, service):
+    def __init__(self):
+        self.path = cur_path
+        self.verbose = True
+        self.service = 'pip'
+        self.arguments = None
+        self.package_json = None
+
+    def set_variables(self, path, verbose, service, arguments):
         self.path = path
         self.verbose = verbose
         self.service = service
-        self.package_json = None
+        self.arguments = arguments
 
     def __reader__(self):
-        with open(os.path.join(self.path, 'package.json'), 'r', encoding='utf8') as packagejson:
-            return json.loads(packagejson.read())
+        try:
+            with open(os.path.join(self.path, 'package.json'), 'r', encoding='utf8') as packagejson:
+                return json.loads(packagejson.read())
+        except FileNotFoundError:
+            print('No package.json found. Please run pypm init')
+            exit()
 
-    def __commander__(self, key, item, arguments):
-        arguments = arguments if arguments != None else ''
+    def __commander__(self, key, item):
+        arguments = self.arguments if self.arguments != None else ''
         option = {
             'run': shlex.split(item),
             'install': shlex.split(f'{self.service} install {arguments} {item}'),
@@ -64,41 +76,41 @@ class PyPM:
         cmd = self.__commander__('run', str(self.package_json['scripts'][str(key)]))
         self.__process__(cmd)
     
-    def install(self, key, arguments=None):
+    def install(self, key):
         key = self.__list_to_str__(key)
-        if key.isspace() != False:
+        if len(key) == 0:
             self.__assign_package_json__()
             if self.verbose:
                 print('Installilng all dependencies...')
-            cmd = self.__commander__('install', self.__get_dependencies__(), arguments)
+            cmd = self.__commander__('install', self.__get_dependencies__())
         else:
             if self.verbose:
                 print(f'Installing package(s) {self.__pretty_key__(key)}...\n')
-            cmd = self.__commander__('install', key, arguments)
+            cmd = self.__commander__('install', key)
         self.__process__(cmd)
     
-    def uninstall(self, key, arguments=None):
+    def uninstall(self, key):
         key = self.__list_to_str__(key)
-        if key.isspace() != False:
+        if len(key) == 0:
             self.__assign_package_json__()
             if self.verbose:
                 print('Uninstalling all dependencies...\n')
-            cmd = self.__commander__('uninstall', self.__get_dependencies__(), arguments)
+            cmd = self.__commander__('uninstall', self.__get_dependencies__())
         else:
             if self.verbose:
                 print(f'Uninstalling package(s) {self.__pretty_key__(key)}...\n')
-            cmd = self.__commander__('uninstall', key, arguments)
+            cmd = self.__commander__('uninstall', key)
         self.__process__(cmd)
     
-    def update(self, key, arguments=None):
+    def update(self, key):
         key = self.__list_to_str__(key)
-        if key.isspace() != False:
+        if len(key) == 0:
             self.__assign_package_json__()
             if self.verbose:
                 print('Updating all dependencies...\n')
-            cmd = self.__commander__('update', self.__get_dependencies__(), arguments)
+            cmd = self.__commander__('update', self.__get_dependencies__())
         else:
             if self.verbose:
                 print(f'Updating package(s) {self.__pretty_key__(key)}...\n')
-            cmd = self.__commander__('update', key, arguments)
+            cmd = self.__commander__('update', key)
         self.__process__(cmd)
