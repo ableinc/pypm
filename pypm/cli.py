@@ -1,8 +1,8 @@
 import argparse, sys, os, click
 try:
-    from version import __version__
-    from main import PyPM
-    from generator import Generator
+    from .version import __version__
+    from .main import PyPM
+    from .generator import Generator
 except ImportError:
     from pypm.version import __version__
     from pypm.main import PyPM
@@ -27,19 +27,25 @@ def service_check(arg):
 @click.option('--verbose', type=bool, default=True, help='Message output')
 @click.option('--service', type=str, default='pip', help='Which service to use (pip, pip3 or npm)')
 @click.option('--arguments', type=str, help='Extra pip or npm arguments to append to commands.')
+@click.version_option(version=__version__)
 def cli(path, verbose, service, arguments):
     """Python package manager for projects running Python3.6 and above."""
     service_check(service)
     pypm.set_variables(path, verbose, service, arguments)
-    generator.set_variables(path, verbose)
 
 
 @cli.command()
-def init():
+@click.argument('path', nargs=1, default=os.getcwd())
+@click.argument('verbose', nargs=-1)
+def init(path, verbose):
     try:
+        if len(verbose) == 0:
+            verbose = True
+        generator.set_variables(path, verbose)
         generator.generate()
-    except Exception:
-        click.echo('You must invoke options to generate package.json')
+    except Exception as e:
+        click.echo(f'Failed to generate package.json. Error: \n', e)
+
 
 @cli.command()
 @click.argument('script')
@@ -64,11 +70,6 @@ def uninstall(dependency):
 @click.argument('dependency', nargs=-1)
 def update(dependency):
     pypm.update(dependency)
-
-
-@cli.command()
-def version():
-    click.echo(__version__)
 
 
 if __name__ == '__main__':

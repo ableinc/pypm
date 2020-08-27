@@ -1,7 +1,6 @@
-import json, re, os
+import json, re, os, sys, subprocess, io, shlex, time
 import os.path
-
-cur_path = str(os.getcwd())
+from stdlib_list import stdlib_list
 
 class Generator:
     """
@@ -11,9 +10,11 @@ class Generator:
         present the generator will terminate.
     """
     def __init__(self):
-        self.path = cur_path
+        self.path = str(os.getcwd())
         self.verbose = True
         self.valid_version = True
+        self.default_packages = stdlib_list(f'{sys.version[0:3]}')
+        self.self_generated_reqs = False
 
     def set_variables(self, path, verbose):
         self.path = path
@@ -32,14 +33,17 @@ class Generator:
                 elif datatype == 'json':
                     return json.loads(reader.read())
         except FileNotFoundError:
-            print('File Not Found. Unable to proceed. Please ensure you have both setup.py and requirements.txt in your root directory.')
+            print(f'{filename} Not Found. Please ensure you have both setup.py and requirements.txt in your root directory.')
             exit()
 
     def __organize_requirements__(self, req_file, count=2):
         obj = {}
         for env in req_file:
             en_v = re.sub("['\"]", '', env.replace('\n', ''))
-            idx = en_v.find('=')
+            if en_v.find('>') == -1:
+                idx = en_v.find('=')
+            else:
+                idx = en_v.find('>')
             obj[re.sub('\s+', '', str(en_v[:idx]))] = str(en_v[idx+count:])
         return obj
     
@@ -62,32 +66,46 @@ class Generator:
             elif index == 1:
                 obj['main'] = answer
             elif index == 2:
-                obj['scripts']['start'] = answer if answer != '' else f"python {obj['main']}"
+                obj['scripts']['start'] = f"python {obj['main']}" if answer != '' else f"python main.py"
             elif index == 3:
                 obj['scripts']['test'] = answer
             elif index == 4:
                 obj['license'] = answer if answer != '' else 'ISC'
         return obj
-            
+    
+    def __check_file_system__ (self, filename):
+        if not os.path.isfile(os.path.join(self.path, filename)):
+            command = shlex.split(f'pipreqs {self.path}')
+            try:
+                proc = subprocess.Popen(command, stdout=subprocess.PIPE, env=os.environ.copy(), stderr=subprocess.PIPE)
+                io.TextIOWrapper(proc.stderr, encoding='utf8', newline='')  # stops error messages from pipreqs from displaying
+                self.self_generated_reqs = True
+                time.sleep(4) # allow time to generate requirements.txt
+            except Exception:
+                print('Unable to generate requirements.txt. Please generate manually and proceed as normal.')
+                exit()
+
     def generate(self):
         if self.verbose:
             print('Running automated data retrieval tool. One moment...\n')
+        self.__check_file_system__('requirements.txt')
         req_dependencies = self.__organize_requirements__(self.__reader__('requirements.txt'))
-        valid_meta = []
-        for line in self.__reader__('setup.py'):
-            for keyword in ['name', 'author', 'description', 'url', 'version']:
-                # keyword = r'\b{}\d+\$'.format(keyword)
-                if re.search(keyword + '=', line):
-                    valid_meta.append(re.sub("['\"]", '', line.replace(',', '').replace('\n', '')))
-        setup_py = self.__organize_requirements__(valid_meta, 1)
+        setup_py_contents = self.__reader__('setup.py')
         template_package_json = self.__reader__('pypm/data/pkg.json', 'json')
-        template_package_json['name'] = setup_py['name']
-        template_package_json['version'] = setup_py['version']
-        if '.' not in setup_py['version']:
-            self.valid_version = False
-        template_package_json['description'] = setup_py['description']
-        template_package_json['dependencies'].update(req_dependencies)
-        template_package_json['author'] = setup_py['author']
+        valid_meta = []
+        if setup_py_contents is not None:
+            for line in setup_py_contents:
+                for keyword in ['name', 'author', 'description', 'url', 'version']:
+                    if re.search(keyword + '=', line):
+                        valid_meta.append(re.sub("['\"]", '', line.replace(',', '').replace('\n', '')))
+            setup_py = self.__organize_requirements__(valid_meta, 1)
+            template_package_json['name'] = setup_py['name']
+            template_package_json['version'] = setup_py['version']
+            if '.' not in setup_py['version']:
+                self.valid_version = False
+            template_package_json['description'] = setup_py['description']
+            template_package_json['dependencies'].update(req_dependencies)
+            template_package_json['author'] = setup_py['author']
         if self.verbose:
             print('Automated data retrieval complete. Please follow on screen instructions below.\n')
         template_package_json.update(self.__get_user_input__())
@@ -95,3 +113,5 @@ class Generator:
             print('Writing package.json...')
             print('Write to file complete.')
         self.__writer__(template_package_json)
+        if self.self_generated_reqs:
+            os.remove(os.path.join(self.path, 'requirements.txt'))

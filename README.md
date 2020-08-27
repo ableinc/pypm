@@ -5,8 +5,7 @@ Python package manager for Python 3, similar to npm. This command line tool work
 **requires Python 3.6**
 
 ```bash
-python3 setup.py build
-python3 setup.py install
+pip install pypm
 ```
 
 # How to Use

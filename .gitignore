@@ -1,7 +1,6 @@
 **/__pycache__/**
 package.json
 .DS_Store
-requirements.txt
 build/**
 dist/**
 pypm.egg-info/**
