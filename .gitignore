@@ -3,4 +3,4 @@ package.json
 .DS_Store
 build/**
 dist/**
-pypm.egg-info/**
+pypm2.egg-info/**

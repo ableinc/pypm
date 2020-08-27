@@ -9,7 +9,7 @@ with open('requirements.txt', 'r') as reqs:
     dependencies = reqs.readlines()
 
 setuptools.setup(
-    name="pypm",
+    name="pypm2",
     version=__version__,
     author="AbleInc",
     author_email="douglas.jaylen@gmail.com",

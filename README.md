@@ -5,7 +5,7 @@ Python package manager for Python 3, similar to npm. This command line tool work
 **requires Python 3.6**
 
 ```bash
-pip install pypm
+pip install pypm2
 ```
 
 # How to Use
@@ -64,6 +64,8 @@ pypm --help
 
 # Notes
 Documentation is on-going, so refer to examples above for now.
+
+Unfortunately someone beat me to the name pypm. Note that when you use pip install be sure to include the 2. This would normally be an issue if you imported this package, but it's a command line tool
 
 # Changelog
 **August 2020**
