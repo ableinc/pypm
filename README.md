@@ -70,9 +70,10 @@ Unfortunately someone beat me to the name pypm. Note that when you use pip insta
 # Changelog
 **August 2020**
 CLI has been rebuilt; less complex.
+PyPI easy install;  pip install pypm2
 
 # Up Next
-1. No cache options when installing. - Done | You may add any arguments that are allowed for pip or npm
-2. Better automation algorithm when generating a new package.json
-3. Possible PyPI easy install
+1. No cache options when installing. - ***Done*** | You may add any arguments that are allowed for pip or npm
+2. Better automation algorithm when generating a new package.json - ***Done***
+3. Possible PyPI easy install - ***Done***
 4. Add package-lock.json **currently in development**
