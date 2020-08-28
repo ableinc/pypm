@@ -5,9 +5,6 @@ from pypm.version import __version__
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-with open('requirements.txt', 'r') as reqs:
-    dependencies = reqs.readlines()
-
 setuptools.setup(
     name="pypm2",
     version=__version__,
