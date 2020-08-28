@@ -1,5 +1,9 @@
 import json, shlex, subprocess, io, sys, os
 import os.path
+try:
+    from pypm.post_operations import update_package_json_after_operation, update_package_json_after_uninstall
+except ImportError:
+    from .post_operations import update_package_json_after_uninstall, update_package_json_after_operation
 
 cur_path = str(os.getcwd())
 
@@ -72,14 +76,14 @@ class PyPM:
     def run(self, key):
         self.__assign_package_json__()
         if self.verbose:
-            print(f'Running command(s) {key}...\n')
+            print(f'Running {key}...\n')
         cmd = self.__commander__('run', str(self.package_json['scripts'][str(key)]))
         self.__process__(cmd)
     
     def install(self, key):
         key = self.__list_to_str__(key)
+        self.__assign_package_json__()
         if len(key) == 0:
-            self.__assign_package_json__()
             if self.verbose:
                 print('Installilng all dependencies...')
             cmd = self.__commander__('install', self.__get_dependencies__())
@@ -88,11 +92,13 @@ class PyPM:
                 print(f'Installing package(s) {self.__pretty_key__(key)}...\n')
             cmd = self.__commander__('install', key)
         self.__process__(cmd)
+        if len(key) != 0:
+            update_package_json_after_operation(key, self.path, self.package_json)
     
     def uninstall(self, key):
         key = self.__list_to_str__(key)
+        self.__assign_package_json__()
         if len(key) == 0:
-            self.__assign_package_json__()
             if self.verbose:
                 print('Uninstalling all dependencies...\n')
             cmd = self.__commander__('uninstall', self.__get_dependencies__())
@@ -101,11 +107,13 @@ class PyPM:
                 print(f'Uninstalling package(s) {self.__pretty_key__(key)}...\n')
             cmd = self.__commander__('uninstall', key)
         self.__process__(cmd)
+        if len(key) != 0:
+            update_package_json_after_uninstall(key, self.path, self.package_json)
     
     def update(self, key):
         key = self.__list_to_str__(key)
+        self.__assign_package_json__()
         if len(key) == 0:
-            self.__assign_package_json__()
             if self.verbose:
                 print('Updating all dependencies...\n')
             cmd = self.__commander__('update', self.__get_dependencies__())
@@ -114,3 +122,5 @@ class PyPM:
                 print(f'Updating package(s) {self.__pretty_key__(key)}...\n')
             cmd = self.__commander__('update', key)
         self.__process__(cmd)
+        if len(key) != 0:
+            update_package_json_after_operation(key, self.path, self.package_json)

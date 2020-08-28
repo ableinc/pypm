@@ -15,7 +15,8 @@ def service_check(arg):
     available_option = {
         'pip': True,
         'pip3': True,
-        'npm': True
+        'npm': True,
+        'npx': True
     }.get(arg, False)
     if not available_option:
         print(f'[!] Error [!] Invalid service: {arg}')
@@ -25,8 +26,8 @@ def service_check(arg):
 @click.group()
 @click.option('--path', type=str, default=str(os.getcwd()), help='Path of package.json. Defaults to current directory CLI tool is called from.')
 @click.option('--verbose', type=bool, default=True, help='Message output')
-@click.option('--service', type=str, default='pip', help='Which service to use (pip, pip3 or npm)')
-@click.option('--arguments', type=str, help='Extra pip or npm arguments to append to commands.')
+@click.option('--service', type=str, default='pip', help='Which service to use (pip, pip3, npm, npx)')
+@click.option('--arguments', type=str, help='Extra pip, npm or npx arguments to append to commands.')
 @click.version_option(version=__version__)
 def cli(path, verbose, service, arguments):
     """Python package manager for projects running Python3.6 and above."""

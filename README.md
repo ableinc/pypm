@@ -1,6 +1,8 @@
 # pypm
 Python package manager for Python 3, similar to npm. This command line tool works just like npm and should mirror its features. Python has no community adopted approach to managing projects. Also, outside of requirements.txt there is no adopted approach to storing and maintaining dependencies. In an effort to resolve this, I've introduced the pyPM tool. It uses the same package.json structure as npm, with all the configurations setup.py offers.
 
+This project intends not to replace (npm) for Node, but to introduce the same project management features to the Python community. 
+
 # Install
 **requires Python 3.6**
 
@@ -60,12 +62,19 @@ pypm --help
     ```
 
 # Key
-<sup>1</sup> Any arguments that pip or npm allow can be combined into these command line arguments. Defined by adding -a/--arguments and entering arguments as such: [--no-cache, --upgrade]. NOTE: You MUST surround the arguments in brackets, it will fail it not.
+<sup>1</sup> Any arguments that pip or npm allow can be combined into these command line arguments. Initiated by adding --arguments option. Example:
+```python
+pypm install pydotenvs --no-cache
+```
+The above example will install the library pydotenvs via PyPI using Pip's built in --no-cache feature.
 
 # Notes
-Documentation is on-going, so refer to examples above for now.
+1. Documentation is on-going, so refer to examples above for now.
 
-Unfortunately someone beat me to the name pypm. Note that when you use pip install be sure to include the 2. This would normally be an issue if you imported this package, but it's a command line tool
+2. Unfortunately someone beat me to the name pypm. Note that when you use pip install be sure to include the 2. This would normally be an issue if you imported this package, but it's a command line tool
+
+3. When installing using npm, the package.json will not update dependencies. This is a known bug. Until fixed, use npm/npx to do your installing for node projects. All other features work.
+
 
 # Changelog
 **August 2020**
@@ -76,4 +85,4 @@ PyPI easy install;  pip install pypm2
 1. No cache options when installing. - ***Done*** | You may add any arguments that are allowed for pip or npm
 2. Better automation algorithm when generating a new package.json - ***Done***
 3. Possible PyPI easy install - ***Done***
-4. Add package-lock.json **currently in development**
+4. Add package-lock.json - **currently in development**

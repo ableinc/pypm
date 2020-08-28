@@ -66,28 +66,32 @@ class Generator:
             elif index == 1:
                 obj['main'] = answer
             elif index == 2:
-                obj['scripts']['start'] = f"python {obj['main']}" if answer != '' else f"python main.py"
+                obj['scripts']['start'] = f"python {obj['main']}" if answer != '' else "python main.py"
             elif index == 3:
-                obj['scripts']['test'] = answer
+                obj['scripts']['test'] = answer if answer != '' else 'echo "No test available"'
             elif index == 4:
                 obj['license'] = answer if answer != '' else 'ISC'
         return obj
     
     def __check_file_system__ (self, filename):
-        if not os.path.isfile(os.path.join(self.path, filename)):
-            command = shlex.split(f'pipreqs {self.path}')
-            try:
-                proc = subprocess.Popen(command, stdout=subprocess.PIPE, env=os.environ.copy(), stderr=subprocess.PIPE)
-                io.TextIOWrapper(proc.stderr, encoding='utf8', newline='')  # stops error messages from pipreqs from displaying
-                self.self_generated_reqs = True
-                time.sleep(4) # allow time to generate requirements.txt
-            except Exception:
-                print('Unable to generate requirements.txt. Please generate manually and proceed as normal.')
-                exit()
+        if os.path.isfile(os.path.join(self.path, 'package.json')):
+            print('package.json already exists for this project.')
+            exit()
+        else:
+            if not os.path.isfile(os.path.join(self.path, filename)):
+                command = shlex.split(f'pipreqs {self.path}')
+                try:
+                    proc = subprocess.Popen(command, stdout=subprocess.PIPE, env=os.environ.copy(), stderr=subprocess.PIPE)
+                    io.TextIOWrapper(proc.stderr, encoding='utf8', newline='')  # stops error messages from pipreqs from displaying
+                    self.self_generated_reqs = True
+                    time.sleep(4) # allow time to generate requirements.txt
+                except Exception:
+                    print('Unable to generate requirements.txt. Please generate manually and proceed as normal.')
+                    exit()
 
     def generate(self):
         if self.verbose:
-            print('Running automated data retrieval tool. One moment...\n')
+            print('Running automated data retrieval tool. One moment...')
         self.__check_file_system__('requirements.txt')
         req_dependencies = self.__organize_requirements__(self.__reader__('requirements.txt'))
         setup_py_contents = self.__reader__('setup.py')
