@@ -29,7 +29,7 @@ setuptools.setup(
         [console_scripts]
         pypm=pypm.cli:cli
     ''',
-    install_requires=dependencies,
+    install_requires=['Click==7.0',  'stdlib-list==0.7.0'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
