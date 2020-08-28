@@ -76,7 +76,7 @@ class Generator:
                 elif index == 4:
                     if answer == '':
                         obj['main'] = 'main.py'
-                    obj['main'] = answer if answer != '' else f'{obj['main']}'
+                    obj['main'] = answer if answer != '' else f"{obj['main']}"
                 elif index == 5:
                     obj['scripts']['start'] = answer if answer != '' else f"python {obj['main']}"
                 elif index == 6:
@@ -98,7 +98,7 @@ class Generator:
                 elif index == 1:
                     if answer == '':
                         obj['main'] = 'main.py'
-                    obj['main'] = answer if answer != '' else f'{obj['main']}'
+                    obj['main'] = answer if answer != '' else f"{obj['main']}"
                 elif index == 2:
                     obj['scripts']['start'] = f"python {obj['main']}" if answer != '' else "python main.py"
                 elif index == 3:

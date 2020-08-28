@@ -39,17 +39,37 @@ class PyPM:
         }.get(key)
         return option
 
-    def __get_dependencies__(self):
+    def __get_dependency_version__(self, temp_dependency_list, dependency_list):
+        final_dependency_list = list()
+        for key in temp_dependency_list:
+            final_dependency_list.append(f'{key}=={self.package_json[dependency_list][key]}')
+        return final_dependency_list
+    
+    def __get_dependencies__(self, update=False):
+        dependencies = list()
+        hasErrors = False
         try:
-            depends = list(self.package_json['dependencies'].keys())
-            depends.extend(list(self.package_json['devDependencies'].keys()))
-            return self.__list_to_str__(depends)
+            if update:
+                dependencies = list(self.package_json['dependencies'].keys()).extend(list(self.package_json['devDependencies']).keys())
+            else:
+                temp_list_one = list(self.package_json['dependencies'].keys())
+                dependencies = self.__get_dependency_version__(temp_list_one, 'dependencies')
+                temp_list_two = list(self.package_json['devDependencies'].keys())
+                dependencies.extend(self.__get_dependency_version__(temp_list_two, 'devDependencies'))
         except KeyError as ke:
             if ke == 'devDependencies':
-                return self.__list_to_str__(list(self.package_json['dependencies'].keys()))
+                if update:
+                    dependencies = list(self.package_json['dependencies'].keys())
+                else:
+                    temp_list_three = list(self.package_json['dependencies'].keys())
+                    dependencies = self.__get_dependency_version__(temp_list_three, 'dependencies')
             else:
-                print('No dependencies found.')
-                sys.exit()
+                hasErrors = True
+        finally:
+            if not hasErrors:
+                return self.__list_to_str__(dependencies)
+            print('No dependencies found.')
+            sys.exit() 
 
     def __process__(self, cmd):
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
@@ -116,7 +136,7 @@ class PyPM:
         if len(key) == 0:
             if self.verbose:
                 print('Updating all dependencies...\n')
-            cmd = self.__commander__('update', self.__get_dependencies__())
+            cmd = self.__commander__('update', self.__get_dependencies__(update=True))
         else:
             if self.verbose:
                 print(f'Updating package(s) {self.__pretty_key__(key)}...\n')
