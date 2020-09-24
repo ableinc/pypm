@@ -1,8 +1,5 @@
 import os, io, subprocess, shlex, re
-try:
-    from  pypm.generator import Generator
-except ImportError:
-    from .generator import Generator
+from .generator import Generator
 
 generator = Generator()
 

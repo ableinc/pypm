@@ -1,21 +1,14 @@
 import json, shlex, subprocess, io, sys, os
 import os.path
-try:
-    from pypm.post_operations import update_package_json_after_operation, update_package_json_after_uninstall
-except ImportError:
-    from .post_operations import update_package_json_after_uninstall, update_package_json_after_operation
+from .post_operations import update_package_json_after_uninstall, update_package_json_after_operation
 
 cur_path = str(os.getcwd())
 
 class PyPM:
     def __init__(self):
-        self.path = cur_path
-        self.verbose = True
-        self.service = 'pip'
-        self.arguments = None
         self.package_json = None
 
-    def set_variables(self, path, verbose, service, arguments):
+    def set_variables(self, path=cur_path, verbose=False, service='pip', arguments=None):
         self.path = path
         self.verbose = verbose
         self.service = service
@@ -74,8 +67,7 @@ class PyPM:
     def __process__(self, cmd):
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         for line in io.TextIOWrapper(proc.stdout):
-            if self.verbose:
-                print(line.replace('\n', ''))
+            print(line.replace('\n', ''))
 
     def __list_to_str__(self, item_list):
         return ' '.join(item_list)

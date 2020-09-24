@@ -1,12 +1,7 @@
 import argparse, sys, os, click
-try:
-    from .version import __version__
-    from .main import PyPM
-    from .generator import Generator
-except ImportError:
-    from pypm.version import __version__
-    from pypm.main import PyPM
-    from pypm.generator import Generator
+from .version import __version__
+from .main import PyPM
+from .generator import Generator
 
 pypm = PyPM()
 generator = Generator()
@@ -25,7 +20,7 @@ def service_check(arg):
 
 @click.group()
 @click.option('--path', type=str, default=str(os.getcwd()), help='Path of package.json. Defaults to current directory CLI tool is called from.')
-@click.option('--verbose', type=bool, default=True, help='Message output')
+@click.option('--verbose', type=bool, default=False, help='Message output')
 @click.option('--service', type=str, default='pip', help='Which service to use (pip, pip3, npm, npx)')
 @click.option('--arguments', type=str, help='Extra pip, npm or npx arguments to append to commands.')
 @click.version_option(version=__version__)
@@ -37,11 +32,9 @@ def cli(path, verbose, service, arguments):
 
 @cli.command()
 @click.argument('path', nargs=1, default=os.getcwd())
-@click.argument('verbose', nargs=-1)
+@click.argument('verbose', nargs=1, default=False)
 def init(path, verbose):
     try:
-        if len(verbose) == 0:
-            verbose = True
         generator.set_variables(path, verbose)
         generator.generate()
     except Exception as e:
