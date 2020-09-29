@@ -18,6 +18,7 @@
         "author_email": "douglas.jaylen@gmail.com",
         "description": "Python package manager for projects running Python3.6 and above.",
         "long_description": "file: README.md",
+        "long_description_content_type": "text/markdown",
         "url": "https://github.com/ableinc/pypm",
         "include_package_data": true,
         "zip_safe": false,

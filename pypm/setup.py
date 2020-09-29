@@ -52,7 +52,7 @@ class SetupGenerator:
     def generate(self):
         content = {
             'metadata': ['name', 'author', 'author_email', 'version', 'description', 'long_description', 'url', 'keywords',
-                'license', 'classifiers'],
+                'license', 'classifiers', 'long_description_content_type'],
             'options': ['zip_safe', 'include_package_data', 'package_dir',
                 'packages', 'scripts', 'install_requires', 'entry_points'],
             'options.package_data': ['package_data'],
