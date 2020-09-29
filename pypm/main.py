@@ -141,6 +141,6 @@ class PyPM:
     
     def setup_py(self, key):
         self.__assign_package_json__()
-        setuptool.set_vars(pkg_json=self.package_json)
-        setuptool._config()
+        setuptool.set_vars(pkg_json=self.package_json, update_packages=key)
+        setuptool.configure()
         setuptool.begin()

@@ -66,7 +66,7 @@ def update(dependency):
     pypm.update(dependency)
 
 @cli.command()
-@click.argument('dependency', nargs=1, default=True)
+@click.argument('dependency', nargs=1, default=False)
 def setup(dependency):
     pypm.setup_py(dependency)
 

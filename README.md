@@ -72,6 +72,10 @@ pypm --help
     ```bash
     pypm setup
     ```
+    Update setuptools, wheel, pip
+    ```bash
+    pypm setup True
+    ```
 
 # Key
 <sup>1</sup> Any arguments that pip or npm allow can be combined into these command line arguments. Initiated by adding --arguments option. Example:
@@ -88,8 +92,7 @@ The above example will install the library pydotenvs via PyPI using Pip's built 
 3. When installing using npm, the package.json will not update dependencies. This is a known bug. Until fixed, use npm/npx to do your installing for node projects. All other features work.
 
 4. When generating a setup.cfg file for development mode installation pip, setuptools and wheel
-will be updated forecfully. You cannot opt out of this as the latest of setuptools is required
-to build.
+may need to be updated. Follow the instructions above to update.
 
 # Changelog
 **September 2020**

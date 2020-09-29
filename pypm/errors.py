@@ -21,3 +21,13 @@ class PackageJsonNotFound(Error):
 
         # Now for your custom code...
         self.errors = errors
+
+class NoSetupConfiguration(Error):
+    """Raised when 'setup' key in package.json is not found"""
+    def __init__(self, message, errors='003'):
+
+        # Call the base class constructor with the parameters it needs
+        super().__init__(message)
+
+        # Now for your custom code...
+        self.errors = errors

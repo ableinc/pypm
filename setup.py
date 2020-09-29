@@ -17,12 +17,13 @@ setuptools.setup(
     keywords=['package manager', 'dependency manager', 'manager', 'python 3', 'cli tool', 'command line tool'],
     packages=setuptools.find_packages(),
     package_data={
-      'pypm': ['pypm/data/pkg.json', 'pypm/data/pyproject.toml', 'pypm/data/setup.cfg']
+      'pypm': ['pypm/data/pkg.json', 'pypm/data/pyproject.toml', 'pypm/data/setup.cfg', 'pypm/data/_setup.py']
     },
     data_files=[
         ('/pypm/data', [path.join('pypm/data', 'pkg.json')]),
         ('/pypm/data', [path.join('pypm/data', 'pyproject.toml')]),
-        ('/pypm/data', [path.join('pypm/data', 'setup.cfg')])
+        ('/pypm/data', [path.join('pypm/data', 'setup.cfg')]),
+        ('/pypm/data', [path.join('pypm/data', '_setup.py')])
     ],
     entry_points='''
         [console_scripts]
