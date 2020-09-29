@@ -14,7 +14,7 @@ Locally
 ```bash
 git clone https://github.com/ableinc/pypm.git
 cd pypm
-pip install --no-cache .
+pip install --upgrade .
 ```
 
 # How to Use
@@ -68,7 +68,7 @@ pypm --help
     pypm update package1 package2
     ```
 7. setup<br />
-    Instead of using setup.py, you can add the same arguments under the 'setup' key in the package.json, then run pypm setup to install your project. Later updates will include the ability to upload to PyPI using pypm.
+    Instead of manually creating setup.py and setup.cfg files, you can add the same arguments under the 'setup' key in the package.json (refer to package.json), then run pypm setup to install your project locally.
     ```bash
     pypm setup
     ```
@@ -91,8 +91,7 @@ The above example will install the library pydotenvs via PyPI using Pip's built 
 
 3. When installing using npm, the package.json will not update dependencies. This is a known bug. Until fixed, use npm/npx to do your installing for node projects. All other features work.
 
-4. When generating a setup.cfg file for development mode installation pip, setuptools and wheel
-may need to be updated. Follow the instructions above to update.
+4. When generating the setup.py & setup.cfg files for development mode installation pip, setuptools and wheel may need to be updated. Follow the instructions above to update alongside setup functionality.
 
 # Changelog
 **September 2020**
@@ -100,6 +99,7 @@ Verbose is no longer default
 Setup.py functionality added to package.json
 Custom error messages
 CLI updates
+***Setup.py feature  has been introduced in version 0.1.3***
 
 **August 2020**
 CLI has been rebuilt; less complex.
@@ -110,5 +110,5 @@ PyPI easy install;  pip install pypm2
 2. Better automation algorithm when generating a new package.json - ***Done***
 3. Possible PyPI easy install - ***Done***
 4. Add package-lock.json - **currently in development**
-5. Replace setup.py, move functionality to package.json - ***Done***
+5. Replace setup.py & setup.cfg, move functionality to package.json - ***Done***
 6. PyPI upload built in ***currently in development**

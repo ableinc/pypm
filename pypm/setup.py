@@ -1,5 +1,5 @@
 import os.path as path
-import os, json, sys
+import os, json, sys, time
 from .errors import SetuptoolFailure, NoSetupConfiguration
 import io, shlex, subprocess, configparser, pkg_resources
 
@@ -85,7 +85,7 @@ class SetupGenerator:
 
     
     def run_setup(self):
-        cmd = shlex.split('python install --editable .')
+        cmd = shlex.split('pip install --editable .')
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         for line in io.TextIOWrapper(proc.stdout):
             print(line.replace('\n', ''))
@@ -114,11 +114,17 @@ class Setup:
         self.update_packages = update_packages
     
     def begin(self):
-        self.generator.set_generator_var(self.pkg_json['setup'])
-        if self.update_packages:
-            self.generator.prereqs()
-        if not self.setupCfgExists():
-            self.generator.read()
-            self.generator.generate()
-            self.generator.write()
-        # self.generator.run_setup()
+        try:
+            self.generator.set_generator_var(self.pkg_json['setup'])
+            if self.update_packages:
+                self.generator.prereqs()
+            if not self.setupCfgExists():
+                self.generator.read()
+                self.generator.generate()
+                self.generator.write()
+            print('Awaiting setup...')
+            time.sleep(3)
+            self.generator.run_setup()
+            print('Setup complete.')
+        except Exception as e:
+            raise SetuptoolFailure(str(e))
