@@ -30,8 +30,8 @@ class SetupGenerator:
         self.config.read_string(cfg)
 
     def write(self):
-        setup_py = self._get_package_resource('_setup.py')
-        with open('_setup.py', 'w') as setup_py_file:
+        setup_py = self._get_package_resource('setup.py')
+        with open('setup.py', 'w') as setup_py_file:
             setup_py_file.write(setup_py)
 
         with open('setup.cfg', 'w') as configfile:
@@ -51,7 +51,7 @@ class SetupGenerator:
     
     def generate(self):
         content = {
-            'metadata': ['name', 'version', 'description', 'long_description', 'keywords',
+            'metadata': ['name', 'author', 'author_email', 'version', 'description', 'long_description', 'url', 'keywords',
                 'license', 'classifiers'],
             'options': ['zip_safe', 'include_package_data', 'package_dir',
                 'packages', 'scripts', 'install_requires', 'entry_points'],
@@ -67,18 +67,22 @@ class SetupGenerator:
                         self._custom_key_join(key, vkey)
                     elif vkey == 'package_data':
                         self._custom_key_(key, vkey)
-                    elif vkey == 'packages' and self.pkg_json['packages'] == '':
+                    elif vkey == 'packages' and self.pkg_json['packages'] == []:
                         # if packages aren't specified, let setuptools find automatically
                         pass
                     elif key == 'options.packages.find' and self.pkg_json['package_dir']:
-                        self.config[key]['where'] = self.pkg_json['package_dir'].replace('\n', '').replace('=', '')
+                        self.config[key]['where'] = self.pkg_json['package_dir'].replace('=', '')
                     else:
                         self.config[key][vkey] = self.pkg_json[vkey]
                 except KeyError as ke:
                     if 'scripts' in str(ke):
                         del self.config['options']['scripts']
+                    
+                    if 'package_dir' in str(key):
+                        del self.config['options']['package_dir']
                 except TypeError as te:
-                    print(f'TypeError: {te}')
+                    pass
+
     
     def run_setup(self):
         cmd = shlex.split('python install --editable .')
