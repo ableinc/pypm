@@ -65,6 +65,11 @@ def uninstall(dependency):
 def update(dependency):
     pypm.update(dependency)
 
+@cli.command()
+@click.argument('dependency', nargs=1, default=True)
+def setup(dependency):
+    pypm.setup_py(dependency)
+
 
 if __name__ == '__main__':
     cli()

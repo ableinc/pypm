@@ -1,8 +1,10 @@
 import json, shlex, subprocess, io, sys, os
 import os.path
 from .post_operations import update_package_json_after_uninstall, update_package_json_after_operation
+from .setup import Setup
 
 cur_path = str(os.getcwd())
+setuptool = Setup()
 
 class PyPM:
     def __init__(self):
@@ -136,3 +138,9 @@ class PyPM:
         self.__process__(cmd)
         if len(key) != 0:
             update_package_json_after_operation(key, self.path, self.package_json)
+    
+    def setup_py(self, key):
+        self.__assign_package_json__()
+        setuptool.set_vars(pkg_json=self.package_json)
+        setuptool._config()
+        setuptool.begin()

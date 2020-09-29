@@ -6,8 +6,15 @@ This project intends not to replace (npm) for Node, but to introduce the same pr
 # Install
 **requires Python 3.6**
 
+PyPI
 ```bash
 pip install pypm2
+```
+Locally
+```bash
+git clone https://github.com/ableinc/pypm.git
+cd pypm
+pip install --no-cache .
 ```
 
 # How to Use
@@ -40,7 +47,7 @@ pypm --help
     ```
     or
     ```bash
-    pypm install ***package1 package2***
+    pypm install package1 package2
     ```
 5. uninstall <sup>1</sup><br />
     Uninstall all or specific packages. Using 'uninstall' as a standalone, it will uninstall all dependencies listed in your package.json (if exists).
@@ -49,7 +56,7 @@ pypm --help
     ```
     or
     ```bash
-    pypm uninstall ***package1 package2***
+    pypm uninstall package1 package2
     ```
 6. update <sup>1</sup><br />
     Update all or specific packages. Using 'update' as a standalone, it will update all dependencies listed in your package.json (if exists).
@@ -58,7 +65,12 @@ pypm --help
     ```
     or
     ```bash
-    pypm update ***package1 package2***
+    pypm update package1 package2
+    ```
+7. setup<br />
+    Instead of using setup.py, you can add the same arguments under the 'setup' key in the package.json, then run pypm setup to install your project. Later updates will include the ability to upload to PyPI using pypm.
+    ```bash
+    pypm setup
     ```
 
 # Key
@@ -75,8 +87,17 @@ The above example will install the library pydotenvs via PyPI using Pip's built 
 
 3. When installing using npm, the package.json will not update dependencies. This is a known bug. Until fixed, use npm/npx to do your installing for node projects. All other features work.
 
+4. When generating a setup.cfg file for development mode installation pip, setuptools and wheel
+will be updated forecfully. You cannot opt out of this as the latest of setuptools is required
+to build.
 
 # Changelog
+**September 2020**
+Verbose is no longer default
+Setup.py functionality added to package.json
+Custom error messages
+CLI updates
+
 **August 2020**
 CLI has been rebuilt; less complex.
 PyPI easy install;  pip install pypm2
@@ -86,3 +107,5 @@ PyPI easy install;  pip install pypm2
 2. Better automation algorithm when generating a new package.json - ***Done***
 3. Possible PyPI easy install - ***Done***
 4. Add package-lock.json - **currently in development**
+5. Replace setup.py, move functionality to package.json - ***Done***
+6. PyPI upload built in ***currently in development**
