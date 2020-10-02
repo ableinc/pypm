@@ -44,31 +44,49 @@ def init(path, verbose):
 @cli.command()
 @click.argument('script')
 def run(script):
-    pypm.run(script)
+    try:
+        pypm.run(script)
+    except Exception as e:
+        click.echo(f'Failed to generate package.json. Error: \n', e)
 
 @cli.command()
 def start():
-    pypm.start()
+    try:
+        pypm.start()
+    except Exception as e:
+        click.echo(f'Script not found. Error: \n', e)
 
 @cli.command()
 @click.argument('dependency', nargs=-1)
 def install(dependency):
-    pypm.install(dependency)
+    try:
+        pypm.install(dependency)
+    except Exception as e:
+        click.echo(f'Failed to install one or more dependencies. Error: \n', e)
 
 @cli.command()
 @click.argument('dependency', nargs=-1)
 def uninstall(dependency):
-    pypm.uninstall(dependency)
+    try:
+        pypm.uninstall(dependency)
+    except Exception as e:
+        click.echo(f'Failed to uninstall one or more dependencies. Error: \n', e)
 
 @cli.command()
 @click.argument('dependency', nargs=-1)
 def update(dependency):
-    pypm.update(dependency)
+    try:
+        pypm.update(dependency)
+    except Exception as e:
+        click.echo(f'Failed to update one or more dependencies. Error: \n', e)
 
 @cli.command()
 @click.argument('dependency', nargs=1, default=False)
 def setup(dependency):
-    pypm.setup_py(dependency)
+    try:
+        pypm.setup_py(dependency)
+    except Exception as e:
+        click.echo(f'Failed to setup project. Error: \n', e)
 
 
 if __name__ == '__main__':
