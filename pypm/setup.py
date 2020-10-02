@@ -103,8 +103,11 @@ class Setup:
 
     def configure(self):
         try:
+            self.pkg_json['setup']['name'] = self.pkg_json['name']
             self.pkg_json['setup']['license']  = self.pkg_json['license']
             self.pkg_json['setup']['version'] = self.pkg_json['version']
+            self.pkg_json['setup']['author'] = self.pkg_json['author']
+            self.pkg_json['setup']['description'] = self.pkg_json['description']
         except KeyError as ke:
             raise NoSetupConfiguration(ke)
             sys.exit()
