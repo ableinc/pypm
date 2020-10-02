@@ -111,6 +111,14 @@ class Setup:
         except KeyError as ke:
             raise NoSetupConfiguration(ke)
             sys.exit()
+        
+        try:
+            install_requires = []
+            for dependency, version in self.pkg_json['dependencies']:
+                install_requires.append(f'{dependency}=={version}')
+            self.pkg_json['setup']['install_requires'] = install_requires
+        except KeyError as ke:
+            pass
 
     def set_vars(self, pkg_json, update_packages):
         self.pkg_json = pkg_json
