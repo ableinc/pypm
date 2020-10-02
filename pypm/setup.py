@@ -114,7 +114,7 @@ class Setup:
         
         try:
             install_requires = []
-            for dependency, version in self.pkg_json['dependencies']:
+            for dependency, version in self.pkg_json['dependencies'].items():
                 install_requires.append(f'{dependency}=={version}')
             self.pkg_json['setup']['install_requires'] = install_requires
         except KeyError as ke:
