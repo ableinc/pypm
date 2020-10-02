@@ -23,9 +23,6 @@ class SetupGenerator:
         return pkg_resources.resource_string(resource_package, resource_path).decode('utf-8')
 
     def read(self):
-        if path.isfile('setup.cfg'):
-            self.config.read('setup.cfg')
-            return
         cfg = self._get_package_resource('setup.cfg')
         self.config.read_string(cfg)
 
@@ -95,11 +92,6 @@ class Setup:
     def __init__(self):
         self.pkg_json = None
         self.generator = SetupGenerator()
-    
-    def setupCfgExists(self):
-        if path.isfile('setup.cfg'):
-            return True
-        return False
 
     def configure(self):
         try:
@@ -129,10 +121,9 @@ class Setup:
             self.generator.set_generator_var(self.pkg_json['setup'])
             if self.update_packages:
                 self.generator.prereqs()
-            if not self.setupCfgExists():
-                self.generator.read()
-                self.generator.generate()
-                self.generator.write()
+            self.generator.read()
+            self.generator.generate()
+            self.generator.write()
             print('Awaiting setup...')
             time.sleep(3)
             self.generator.run_setup()
