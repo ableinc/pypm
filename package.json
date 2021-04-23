@@ -1,12 +1,13 @@
 {
     "name": "pypm2",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "description": "Python package manager for projects running Python3.6 and above.",
     "main": "",
     "scripts": {
         "start": "python main.py",
         "test": "echo \"No test available\"",
-        "install": "pip install --editable .",
+        "dev": "pip install --editable .",
+        "install": "pip install pypm2",
         "build": "python setup.py sdist bdist_wheel",
         "publish": "twine upload dist/*"
     },

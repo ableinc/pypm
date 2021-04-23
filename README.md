@@ -4,7 +4,7 @@ Python package manager for Python 3, similar to npm. This command line tool work
 This project intends not to replace (npm) for Node, but to introduce the same project management features to the Python community. 
 
 # Install
-**requires Python 3.6**
+**requires Python 3.6 or above**
 
 PyPI
 ```bash
@@ -14,7 +14,7 @@ Locally
 ```bash
 git clone https://github.com/ableinc/pypm.git
 cd pypm
-pip install --upgrade .
+pip install --editable .
 ```
 
 # How to Use
@@ -94,6 +94,9 @@ The above example will install the library pydotenvs via PyPI using Pip's built 
 4. When generating the setup.py & setup.cfg files for development mode installation pip, setuptools and wheel may need to be updated. Follow the instructions above to update alongside setup functionality.
 
 # Changelog
+**April 2021**
+Minor bug fix to CLI tool; version update.
+
 **September 2020**
 Verbose is no longer default
 Setup.py functionality added to package.json

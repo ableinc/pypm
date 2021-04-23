@@ -4,3 +4,4 @@ build/**
 dist/**
 pypm2.egg-info/**
 main.py
+**/__init__.pyc

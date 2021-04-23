@@ -14,7 +14,8 @@ def service_check(arg):
         'npx': True
     }.get(arg, False)
     if not available_option:
-        print(f'[!] Error [!] Invalid service: {arg}')
+        error_message = '[!] Error [!] Invalid service: ' + arg
+        print(error_message)
         sys.exit(1)
 
 
