@@ -1,6 +1,6 @@
 {
     "name": "pypm2",
-    "version": "0.1.6",
+    "version": "0.1.7",
     "description": "Python package manager for projects running Python3.6 and above.",
     "main": "",
     "scripts": {

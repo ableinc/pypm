@@ -79,10 +79,15 @@ pypm --help
 
 # Key
 <sup>1</sup> Any arguments that pip or npm allow can be combined into these command line arguments. Initiated by adding --arguments option. Example:
-```python
-pypm install pydotenvs --no-cache
+```bash
+pypm --arguments --no-cache install pydotenvs
 ```
 The above example will install the library pydotenvs via PyPI using Pip's built in --no-cache feature.
+
+If you have multiple arguments to append to a command you can seperate them by commas. For example:
+```bash
+pypm --arguments --no-cache,--verbose,--logs,~/Downloads install pydotenvs
+```
 
 # Notes
 1. Documentation is on-going, so refer to examples above for now.
@@ -94,6 +99,9 @@ The above example will install the library pydotenvs via PyPI using Pip's built 
 4. When generating the setup.py & setup.cfg files for development mode installation pip, setuptools and wheel may need to be updated. Follow the instructions above to update alongside setup functionality.
 
 # Changelog
+**June 2021**
+Enhanced the arguments feature for CLI tool.
+
 **April 2021**
 Minor bug fix to CLI tool; version update.
 
@@ -109,9 +117,9 @@ CLI has been rebuilt; less complex.
 PyPI easy install;  pip install pypm2
 
 # Up Next
-1. No cache options when installing. - ***Done*** | You may add any arguments that are allowed for pip or npm
+1. No cache options when installing. - ***Done*** | You may add any arguments that are allowed for pip, npm or any other CLI tool arguments
 2. Better automation algorithm when generating a new package.json - ***Done***
 3. Possible PyPI easy install - ***Done***
 4. Add package-lock.json - **currently in development**
 5. Replace setup.py & setup.cfg, move functionality to package.json - ***Done***
-6. PyPI upload built in ***currently in development**
+6. PyPI upload built in ***Done***

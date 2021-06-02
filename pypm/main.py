@@ -11,10 +11,12 @@ class PyPM:
         self.package_json = None
 
     def set_variables(self, path=cur_path, verbose=False, service='pip', arguments=None):
+        def args():
+            return ' '.join(arguments.split(','))
         self.path = path
         self.verbose = verbose
         self.service = service
-        self.arguments = arguments
+        self.arguments = [args() if arguments != None and ',' in arguments else arguments][0]
 
     def __reader__(self):
         try:
@@ -27,7 +29,7 @@ class PyPM:
     def __commander__(self, key, item):
         arguments = self.arguments if self.arguments != None else ''
         option = {
-            'run': shlex.split(item),
+            'run': shlex.split(f'{item} {arguments}'),
             'install': shlex.split(f'{self.service} install {arguments} {item}'),
             'uninstall': shlex.split(f'{self.service} uninstall {arguments} {item}'),
             'update': shlex.split(f'{self.service} install --upgrade {item}') if 'pip' in self.service else shlex.split(f'{self.service} update {arguments} {item}')
