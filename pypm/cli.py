@@ -1,4 +1,4 @@
-import argparse, sys, os, click
+import sys, os, click, io, subprocess, shlex
 from .version import __version__
 from .main import PyPM
 from .generator import Generator
@@ -41,6 +41,16 @@ def init(path, verbose):
     except Exception as e:
         click.echo(f'Failed to generate package.json. Error: {e}')
 
+@cli.command()
+def getreqs():
+    try:
+
+        command = shlex.split('pip freeze > requirements.txt')
+        proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        with open(os.getcwd() + '/requirements.txt', 'w') as requirements:
+            requirements.writelines(io.TextIOWrapper(proc.stdout, encoding='utf8').readlines())
+    except Exception as e:
+        click.echo(e)
 
 @cli.command()
 @click.argument('script')

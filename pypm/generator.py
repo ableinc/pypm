@@ -1,4 +1,4 @@
-import json, re, os, sys, subprocess, io, shlex, time
+import json, re, os, sys, subprocess, io, shlex
 import os.path, pkg_resources
 from stdlib_list import stdlib_list
 
@@ -114,14 +114,14 @@ class Generator:
             exit()
         else:
             if not os.path.isfile(os.path.join(self.path, filename)):
-                command = shlex.split(f'pipreqs {self.path}')
                 try:
-                    proc = subprocess.Popen(command, stdout=subprocess.PIPE, env=os.environ.copy(), stderr=subprocess.PIPE)
-                    io.TextIOWrapper(proc.stderr, encoding='utf8', newline='')  # stops error messages from pipreqs from displaying
+                    command = shlex.split('pip freeze > requirements.txt')
+                    proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    with open(os.getcwd() + '/requirements.txt', 'w') as requirements:
+                        requirements.writelines(io.TextIOWrapper(proc.stdout, encoding='utf8').readlines())
                     self.self_generated_reqs = True
-                    time.sleep(4) # allow time to generate requirements.txt
                 except Exception:
-                    print('Unable to generate requirements.txt. Please generate manually and proceed as normal.')
+                    print('Unable to generate requirements.txt. Run: pypm getreqs - to create the requirements.txt file')
                     exit()
 
     def _create_structure_(self, setup_py, template_package_json, req_dependencies):
