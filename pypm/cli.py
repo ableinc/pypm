@@ -93,9 +93,10 @@ def update(dependency):
 
 @cli.command()
 @click.argument('dependency', nargs=1, default=False)
-def setup(dependency):
+@click.option('--python', type=str, default='python3', help='Specify which version of python to use. Default: python3')
+def setup(dependency, python):
     try:
-        pypm.setup_py(dependency)
+        pypm.setup_py(dependency, python)
     except Exception as e:
         click.echo(f'Failed to setup project. Error: {e}')
 

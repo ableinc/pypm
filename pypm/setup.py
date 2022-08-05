@@ -8,8 +8,8 @@ class SetupGenerator:
     def __init__(self):
         self.config = configparser.ConfigParser()
     
-    def prereqs(self):
-        cmd = shlex.split('python3 -m pip install --upgrade pip setuptools wheel')
+    def prereqs(self, python_version):
+        cmd = shlex.split('{} -m pip install --upgrade pip setuptools wheel'.format(python_version))
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         for line in io.TextIOWrapper(proc.stdout):
             print(line.replace('\n', ''))
@@ -77,12 +77,12 @@ class SetupGenerator:
                     
                     if 'package_dir' in str(key):
                         del self.config['options']['package_dir']
-                except TypeError as te:
+                except TypeError:
                     pass
 
     
-    def run_setup(self):
-        cmd = shlex.split('pip install --editable .')
+    def run_setup(self, python_version):
+        cmd = shlex.split('{} -m pip install .'.format(python_version))
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         for line in io.TextIOWrapper(proc.stdout):
             print(line.replace('\n', ''))
@@ -92,6 +92,7 @@ class Setup:
     def __init__(self):
         self.pkg_json = None
         self.generator = SetupGenerator()
+        self.python_version = 'python3'
 
     def configure(self):
         try:
@@ -102,7 +103,6 @@ class Setup:
             self.pkg_json['setup']['description'] = self.pkg_json['description']
         except KeyError as ke:
             raise NoSetupConfiguration(ke)
-            sys.exit()
         
         try:
             install_requires = []
@@ -112,21 +112,22 @@ class Setup:
         except KeyError as ke:
             pass
 
-    def set_vars(self, pkg_json, update_packages):
+    def set_vars(self, pkg_json, update_packages, python_version = 'python3'):
         self.pkg_json = pkg_json
         self.update_packages = update_packages
+        self.python_version = python_version
     
     def begin(self):
         try:
             self.generator.set_generator_var(self.pkg_json['setup'])
             if self.update_packages:
-                self.generator.prereqs()
+                self.generator.prereqs(self.python_version)
             self.generator.read()
             self.generator.generate()
             self.generator.write()
             print('Awaiting setup...')
             time.sleep(3)
-            self.generator.run_setup()
+            self.generator.run_setup(self.python_version)
             print('Setup complete.')
         except Exception as e:
             raise SetuptoolFailure(str(e))

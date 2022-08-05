@@ -1,8 +1,12 @@
-# pypm
+# PyPM
 
-Python package manager for Python 3, similar to npm. This command line tool works just like npm and should mirror its features. Python has no community adopted approach to managing projects. Also, outside of requirements.txt there is no adopted approach to storing and maintaining dependencies. In an effort to resolve this, I've introduced the pyPM tool. It uses the same package.json structure as npm, with all the configurations setup.py offers.
+Pypm is a python package manager for projects using Python 3 and above. This library is similar to npm. This command line tool works just like npm and should mirror its features.
 
-This project intends not to replace (npm) for Node, but to introduce the same project management features to the Python community.
+## Reason
+
+The python community has no package management tool that is closely maintained. Also, outside of requirements.txt there is no adopted approach to storing and maintaining dependencies. In an effort to change this, I've introduced the PyPM tool. It uses the same package.json structure as npm, with all the configurations setup.py offers.
+
+This project does not intend to replace npm for NodeJS, but introduce the same project management features to the Python community.
 
 ## Install
 
@@ -27,7 +31,7 @@ Visit PyPi:
 
 ## How to Use
 
-pyPM works just like npm. You are granted the same operations such as, init, install, uninstall, update, start, and run.
+PyPM works just like npm. You are granted the same operations such as, init, install, uninstall, update, start, and run.
 Run:
 
 ```bash
@@ -103,10 +107,16 @@ pypm --help
     pypm setup
     ```
 
-    Update setuptools, wheel, pip
+    Update setuptools, wheel, pip:
 
     ```bash
     pypm setup True
+    ```
+
+    Specify a version of python to use:
+
+    ```bash
+    pypm setup --python python3.9
     ```
 
 8. getreqs<br />
@@ -146,30 +156,31 @@ pypm --arguments --no-cache,--verbose,--logs,~/Downloads install pydotenvs
 
 **August 2022**
 
-Updated how the package is installed on the system
-New algorithm for automatically generating the requirements.txt file has been added
-pypm init can now generate the requirements.txt file by pypm command (pypm getreqs)
+- Updated how the package is installed on the system
+- New algorithm for automatically generating the requirements.txt file has been added
+- ```pypm init``` can now generate the requirements.txt file by pypm command (pypm getreqs)
+- You can now specify a version of python to use for ```pypm setup```. By default it will use python3.
 
 **June 2021**
 
-Enhanced the arguments feature for CLI tool.
+- Enhanced the arguments feature for CLI tool.
 
 **April 2021**
 
-Minor bug fix to CLI tool; version update.
+- Minor bug fix to CLI tool; version update.
 
 **September 2020**
 
-Verbose is no longer default
-Setup.py functionality added to package.json
-Custom error messages
-CLI updates
+- Verbose is no longer default
+- Setup.py functionality added to package.json
+- Custom error messages
+- CLI updates
 ***Setup.py feature  has been introduced in version 0.1.3***
 
 **August 2020**
 
-CLI has been rebuilt; less complex.
-PyPI easy install;  pip install pypm2
+- CLI has been rebuilt; less complex.
+- PyPI easy install;  pip install pypm2
 
 ## Up Next
 

@@ -141,8 +141,8 @@ class PyPM:
         if len(key) != 0:
             update_package_json_after_operation(key, self.path, self.package_json)
     
-    def setup_py(self, key):
+    def setup_py(self, key, python_version = 'python3'):
         self.__assign_package_json__()
-        setuptool.set_vars(pkg_json=self.package_json, update_packages=key)
+        setuptool.set_vars(pkg_json=self.package_json, update_packages=key, python_version=python_version)
         setuptool.configure()
         setuptool.begin()
