@@ -4,9 +4,18 @@ Pypm is a python package manager for projects using Python 3 and above. This lib
 
 ## Reason
 
+<s>
 The python community has no package management tool that is closely maintained. Also, outside of requirements.txt there is no adopted approach to storing and maintaining dependencies. In an effort to change this, I've introduced the PyPM tool. It uses the same package.json structure as npm, with all the configurations setup.py offers.
+</s>
 
-This project does not intend to replace npm for NodeJS, but introduce the same project management features to the Python community.
+**UPDATED**:
+<br />
+Its been brought to my attention (by a redditor; shock), that the above statement was in fact a lie. So, let me be clear. This project was written over 2 years ago, in 2 hours, when I was creating my PyReact library (you can find the repo on my page). It was an effort to package up the framework to mimic ReactJS, and consequently, npm. Myself nor any of my other close Python devs had heard of Flint or Poetry, so I made my own dependency manager. I was today years old (10 August 2022) when it was brought to my attention. So, for rightfully argumentative community, I've decided to make this disclaimer that PyPM is not a game-changer and is just yet another option of Python package managers.
+<br />
+
+Another note, it currently uses ```setup.cfg``` as the configuration file. This will be changed to adopt the ```.toml``` configuration file approach.
+
+This project intends to introduce ***another*** project management tool to the Python community.
 
 ## Install
 
