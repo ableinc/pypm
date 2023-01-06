@@ -13,7 +13,12 @@ class Generator:
         self.path = str(os.getcwd())
         self.verbose = True
         self.valid_version = True
-        self.default_packages = stdlib_list(f'{sys.version[0:3]}')
+        try:
+            # The stdlib_list library is limited to python <= 3.9
+            python_version = f'{sys.version_info.major}.{sys.version_info.minor}' 
+            self.default_packages = stdlib_list(python_version)
+        except ValueError:
+            pass
         self.self_generated_reqs = False
 
     def set_variables(self, path, verbose):

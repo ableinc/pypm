@@ -163,6 +163,11 @@ pypm --arguments --no-cache,--verbose,--logs,~/Downloads install pydotenvs
 
 ## Changelog
 
+**January 2023**
+
+- Fixed bug with stdlib_list library - it is limited to python version <= 3.9. Future updates to the library will remove this dependency.
+- Updated micro version number. New version 0.2.1
+
 **August 2022**
 
 - Updated how the package is installed on the system
