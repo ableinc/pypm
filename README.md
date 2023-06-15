@@ -4,18 +4,10 @@ Pypm is a python package manager for projects using Python 3 and above. This lib
 
 ## Reason
 
-<s>
-The python community has no package management tool that is closely maintained. Also, outside of requirements.txt there is no adopted approach to storing and maintaining dependencies. In an effort to change this, I've introduced the PyPM tool. It uses the same package.json structure as npm, with all the configurations setup.py offers.
-</s>
+Yet another Python tool for your ```PATH```. If you're fluent in Flint or Poetry, give this a try. See areas of improvements? Let me know with a PR!
+PyPM currently uses ```setup.cfg``` as the configuration file. This will be changed to adopt the ```.toml``` configuration file approach.
 
-**UPDATED**:
-<br />
-Its been brought to my attention (by a redditor; shock), that the above statement was in fact a lie. So, let me be clear. This project was written over 2 years ago, in 2 hours, when I was creating my PyReact library (you can find the repo on my page). It was an effort to package up the framework to mimic ReactJS, and consequently, npm. Myself nor any of my other close Python devs had heard of Flint or Poetry, so I made my own dependency manager. I was today years old (10 August 2022) when it was brought to my attention. So, for rightfully argumentative community, I've decided to make this disclaimer that PyPM is not a game-changer and is just yet another option of Python package managers.
-<br />
-
-Another note, it currently uses ```setup.cfg``` as the configuration file. This will be changed to adopt the ```.toml``` configuration file approach.
-
-This project intends to introduce ***another*** project management tool to the Python community.
+This project intends to introduce ***another*** project management tool to the Python community, plus its super light-weight.
 
 ## Install
 
@@ -140,10 +132,10 @@ pypm --help
 <sup>1</sup> Any arguments that pip or npm allow can be combined into these command line arguments. Initiated by adding --arguments option. Example:
 
 ```bash
-pypm --arguments --no-cache install pydotenvs
+pypm --arguments --no-cache-dir install pydotenvs
 ```
 
-The above example will install the library pydotenvs via PyPI using Pip's built in --no-cache feature.
+The above example will install the library pydotenvs via PyPI using Pip's built in --no-cache-dir command.
 
 If you have multiple arguments to append to a command you can seperate them by commas. For example:
 
@@ -157,9 +149,7 @@ pypm --arguments --no-cache,--verbose,--logs,~/Downloads install pydotenvs
 
 2. Unfortunately someone beat me to the name pypm. Note that when you use pip install be sure to include the 2. This would normally be an issue if you imported this package, but it's a command line tool
 
-3. When installing using npm, the package.json will not update dependencies. This is a known bug. Until fixed, use npm/npx to do your installing for node projects. All other features work.
-
-4. When generating the setup.py & setup.cfg files for development mode installation pip, setuptools and wheel may need to be updated. Follow the instructions above to update alongside setup functionality.
+3. When generating the setup.py & setup.cfg files for development mode installation pip, setuptools and wheel may need to be updated. Follow the instructions above to update alongside setup functionality.
 
 ## Changelog
 
